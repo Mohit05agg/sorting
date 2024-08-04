@@ -18,6 +18,7 @@ function generateArray() {
     }
 }
 
+
 function swap(el1, el2) {
     return new Promise((resolve) => {
         let temp = el1.style.transform;
@@ -54,10 +55,10 @@ async function bubbleSort(delay = 100) {
         }
         blocks[blocks.length - i - 1].style.backgroundColor = "#13CE66";
     }
-    message.innerText = "I hope now you have understood the implementation.";
+    message.innerText = "Sorting Complete.";
 }
 
-async function insertionSort(delay = 100) {
+async function insertionSort(delay = 300) {
     let blocks = document.querySelectorAll(".block");
     for (let i = 1; i < blocks.length; i++) {
         let j = i - 1;
@@ -86,7 +87,7 @@ async function insertionSort(delay = 100) {
         blocks[j + 1].childNodes[0].innerText = value;
         blocks[i].style.backgroundColor = "#13CE66";
     }
-    message.innerText = "I hope now you have understood the implementation.";
+    message.innerText = "Sorting Complete.";
 }
 
 async function hoarePartition(l, r, delay = 100) {
@@ -142,7 +143,196 @@ async function quickSortHelper(l, r, delay = 100) {
 
 async function quickSort(delay = 100) {
     await quickSortHelper(0, document.querySelectorAll(".block").length - 1, delay);
-    message.innerText = "I hope now you have understood the implementation.";
+    message.innerText = "Sorting Complete.";
+}
+
+async function binarySearch(delay = 100) {
+    let blocks = document.querySelectorAll(".block");
+    let num = Number(document.getElementById("searchNumber").value); // Convert input to a number
+    let message = document.getElementById("message");
+    message.innerText = "";
+
+    for (let i = 0; i < blocks.length; i++) {
+        blocks[i].style.backgroundColor = "#6b5b95"; // Reset block colors
+    }
+
+    let start = 0;
+    let end = blocks.length - 1;
+    let found = false;
+
+    while (start <= end) {
+        let mid = Math.floor((start + end) / 2);
+        let midValue = Number(blocks[mid].childNodes[0].innerText); // Convert block label to number
+
+        blocks[mid].style.backgroundColor = "#FF4949"; // Highlight mid block
+
+        await new Promise((resolve) => setTimeout(() => resolve(), delay));
+
+        if (midValue === num) { // Use strict equality
+            blocks[mid].style.backgroundColor = "#13CE66"; // Mark block as found
+            message.innerText = "Element found!";
+            found = true;
+            break;
+        } else if (midValue < num) {
+            start = mid + 1;
+        } else {
+            end = mid - 1;
+        }
+
+        blocks[mid].style.backgroundColor = "#6b5b95"; // Reset color if not found
+    }
+
+    if (!found) {
+        message.innerText = "Element not found!";
+    }
+}
+
+async function linearSearch(delay = 300) {
+    let blocks = document.querySelectorAll(".block");
+    let num = Number(document.getElementById("searchNumber").value);
+    let message = document.getElementById("message");
+    message.innerText = "";
+
+    for (let i = 0; i < blocks.length; i++) {
+        blocks[i].style.backgroundColor = "#6b5b95"; // Reset block colors
+    }
+
+    let found = false;
+    for (let i = 0; i < blocks.length; i++) {
+        blocks[i].style.backgroundColor = "#FF4949"; // Highlight current block
+
+        await new Promise((resolve) => setTimeout(() => resolve(), delay));
+
+        let value = Number(blocks[i].childNodes[0].innerText);
+        if (value === num) {
+            blocks[i].style.backgroundColor = "#13CE66"; // Mark block as found
+            message.innerText = "Element found!";
+            found = true;
+            break;
+        } else {
+            blocks[i].style.backgroundColor = "#6b5b95"; // Reset color if not found
+        }
+    }
+
+    if (!found) {
+        message.innerText = "Element not found!";
+    }
+}
+
+
+async function selectionSort(delay = 300) {
+    let blocks = document.querySelectorAll(".block");
+    let n = blocks.length;
+
+    for (let i = 0; i < n - 1; i++) {
+        let minIndex = i;
+        blocks[minIndex].style.backgroundColor = "#FF4949"; // Highlight the current minimum
+
+        for (let j = i + 1; j < n; j++) {
+            blocks[j].style.backgroundColor = "#FF4949"; // Highlight the current block being compared
+
+            await new Promise((resolve) => setTimeout(() => resolve(), delay));
+
+            let value1 = Number(blocks[minIndex].childNodes[0].innerText);
+            let value2 = Number(blocks[j].childNodes[0].innerText);
+
+            if (value2 < value1) {
+                if (minIndex !== i) {
+                    blocks[minIndex].style.backgroundColor = "#6b5b95"; // Reset previous minimum's color
+                }
+                minIndex = j;
+            } else {
+                blocks[j].style.backgroundColor = "#6b5b95"; // Reset non-minimum's color
+            }
+        }
+
+        if (minIndex !== i) {
+            // Swap the found minimum element with the first element
+            let tempHeight = blocks[minIndex].style.height;
+            let tempLabel = blocks[minIndex].childNodes[0].innerText;
+
+            blocks[minIndex].style.height = blocks[i].style.height;
+            blocks[minIndex].childNodes[0].innerText = blocks[i].childNodes[0].innerText;
+            blocks[i].style.height = tempHeight;
+            blocks[i].childNodes[0].innerText = tempLabel;
+
+            blocks[minIndex].style.backgroundColor = "#6b5b95"; // Reset color after swap
+        }
+
+        blocks[i].style.backgroundColor = "#13CE66"; // Mark the sorted element
+    }
+
+    blocks[n - 1].style.backgroundColor = "#13CE66"; // Mark the last element as sorted
+    message.innerText = "Sorting Complete.";
+}
+
+
+async function merge(l, mid, r, delay = 100) {
+    let blocks = document.querySelectorAll(".block");
+    let leftSize = mid - l + 1;
+    let rightSize = r - mid;
+    
+    // Create temporary arrays
+    let leftArray = new Array(leftSize);
+    let rightArray = new Array(rightSize);
+    
+    // Copy data to temp arrays leftArray[] and rightArray[]
+    for (let i = 0; i < leftSize; i++) {
+        leftArray[i] = blocks[l + i].style.height;
+        blocks[l + i].style.backgroundColor = "#FF4949"; // Mark left part
+    }
+    for (let j = 0; j < rightSize; j++) {
+        rightArray[j] = blocks[mid + 1 + j].style.height;
+        blocks[mid + 1 + j].style.backgroundColor = "#FF4949"; // Mark right part
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    
+    let i = 0, j = 0, k = l;
+
+    // Merge the temp arrays back into blocks[]
+    while (i < leftSize && j < rightSize) {
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        
+        if (parseInt(leftArray[i]) <= parseInt(rightArray[j])) {
+            blocks[k].style.height = leftArray[i];
+            i++;
+        } else {
+            blocks[k].style.height = rightArray[j];
+            j++;
+        }
+        blocks[k].style.backgroundColor = "#13CE66"; // Sorted elements
+        k++;
+    }
+
+    // Copy the remaining elements of leftArray[], if there are any
+    while (i < leftSize) {
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        blocks[k].style.height = leftArray[i];
+        blocks[k].style.backgroundColor = "#13CE66"; // Sorted elements
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of rightArray[], if there are any
+    while (j < rightSize) {
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        blocks[k].style.height = rightArray[j];
+        blocks[k].style.backgroundColor = "#13CE66"; // Sorted elements
+        j++;
+        k++;
+    }
+}
+
+// Asynchronous MergeSort function
+async function mergeSort(l, r, delay = 100) {
+    if (l >= r) return;
+
+    let mid = Math.floor((l + r) / 2);
+    await mergeSort(l, mid, delay);
+    await mergeSort(mid + 1, r, delay);
+    await merge(l, mid, r, delay);
+    message.innerText = "Sorting Complete.";
 }
 
 function startSort() {
@@ -157,6 +347,18 @@ function startSort() {
         case "quickSort":
             quickSort();
             break;
+        case "binarySearch":
+            binarySearch();
+            break;
+        case "linearSearch":
+            linearSearch();
+            break;
+        case "selectionSort":
+            selectionSort();
+            break;
+        case "mergeSort":
+            mergeSort(0, document.querySelectorAll(".block").length - 1);
+            break;
         default:
             bubbleSort();
             break;
@@ -164,3 +366,9 @@ function startSort() {
 }
 
 generateArray();
+
+
+
+
+
+

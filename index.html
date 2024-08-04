@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Sorting Visualization</title>
+</head>
+<body>
+    <br />
+    <p class="header">Sorting Visualization</p>
+    <select id="algorithm">
+        <option value="bubbleSort">Bubble Sort</option>
+        <option value="insertionSort">Insertion Sort</option>
+        <option value="quickSort">Quick Sort</option>
+    </select>
+    <button onclick="generateArray()">Generate New Array</button>
+    <button onclick="startSort()">Start Sorting</button>
+    <div id="array"></div>
+    <p id="message"></p>
+    <script src="script.js"></script>
+</body>
+</html>

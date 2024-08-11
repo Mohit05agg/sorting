@@ -1,30 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Sorting and Searching Visualization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Algorithm Visualization</title>
 </head>
 <body>
-    <p class="header">Sorting and Searching Visualization</p>
-    <select id="algorithm">
-        <option value="bubbleSort">Bubble Sort</option>
-        <option value="insertionSort">Insertion Sort</option>
-        <option value="quickSort">Quick Sort</option>
-        <option value="selectionSort">Selection Sort</option>
-        <option value="mergeSort">Merge Sort</option>
-        <option value="binarySearch">Binary Search</option>
-        <option value="linearSearch">Linear Search</option>
-
-    </select>
-    <button onclick="generateArray()">Generate New Array</button>
-    <button onclick="startSort()">Start</button>
-    
-    
-    <input type="text" id="searchNumber" placeholder="Enter number to search" />
-    <div id="array"></div>
-    <p id="message"></p>
-    <script src="script.js"></script>
+    <div class="centered-container">
+        <h1>Algorithm Visualization</h1>
+        <button onclick="window.location.href='searching.html'">Searching Algorithms</button>
+        <button onclick="window.location.href='sorting.html'">Sorting Algorithms</button>
+    </div>
 </body>
 </html>

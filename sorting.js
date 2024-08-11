@@ -1,6 +1,9 @@
 let container = document.getElementById("array");
 let message = document.getElementById("message");
+let speedSlider = document.getElementById("speedSlider");
+let speedValue = document.getElementById("speedValue");
 
+// Function to generate a random array
 function generateArray() {
     container.innerHTML = ""; // Clear the existing array
     message.innerText = ""; // Clear the message
@@ -18,7 +21,18 @@ function generateArray() {
     }
 }
 
+// Function to get the current delay from the speed slider
+function getDelay() {
+    let speedValue = speedSlider.value;
+    return 1000 - speedValue * 10; // Adjust this formula as needed
+}
 
+// Update the speed value display
+speedSlider.addEventListener('input', () => {
+    speedValue.innerText = speedSlider.value;
+});
+
+// Swap function with delay
 function swap(el1, el2) {
     return new Promise((resolve) => {
         let temp = el1.style.transform;
@@ -28,12 +42,13 @@ function swap(el1, el2) {
             setTimeout(() => {
                 container.insertBefore(el2, el1);
                 resolve();
-            }, 250);
+            }, getDelay());
         });
     });
 }
 
-async function bubbleSort(delay = 100) {
+// Bubble Sort
+async function bubbleSort() {
     let blocks = document.querySelectorAll(".block");
     for (let i = 0; i < blocks.length; i++) {
         for (let j = 0; j < blocks.length - i - 1; j++) {
@@ -42,7 +57,7 @@ async function bubbleSort(delay = 100) {
             await new Promise((resolve) =>
                 setTimeout(() => {
                     resolve();
-                }, delay)
+                }, getDelay())
             );
             let value1 = Number(blocks[j].childNodes[0].innerHTML);
             let value2 = Number(blocks[j + 1].childNodes[0].innerHTML);
@@ -58,7 +73,8 @@ async function bubbleSort(delay = 100) {
     message.innerText = "Sorting Complete.";
 }
 
-async function insertionSort(delay = 300) {
+// Insertion Sort
+async function insertionSort() {
     let blocks = document.querySelectorAll(".block");
     for (let i = 1; i < blocks.length; i++) {
         let j = i - 1;
@@ -67,7 +83,7 @@ async function insertionSort(delay = 300) {
         await new Promise((resolve) =>
             setTimeout(() => {
                 resolve();
-            }, delay)
+            }, getDelay())
         );
         while (j >= 0 && Number(blocks[j].childNodes[0].innerHTML) > value) {
             blocks[j].style.backgroundColor = "#FF4949";
@@ -77,7 +93,7 @@ async function insertionSort(delay = 300) {
             await new Promise((resolve) =>
                 setTimeout(() => {
                     resolve();
-                }, delay)
+                }, getDelay())
             );
             for (let k = i; k >= 0; k--) {
                 blocks[k].style.backgroundColor = "#6b5b95";
@@ -90,7 +106,8 @@ async function insertionSort(delay = 300) {
     message.innerText = "Sorting Complete.";
 }
 
-async function hoarePartition(l, r, delay = 100) {
+// Hoare Partition for Quick Sort
+async function hoarePartition(l, r) {
     let blocks = document.querySelectorAll(".block");
     let pivot = Number(blocks[l].childNodes[0].innerHTML);
     blocks[l].style.backgroundColor = "red";
@@ -103,7 +120,7 @@ async function hoarePartition(l, r, delay = 100) {
             await new Promise((resolve) =>
                 setTimeout(() => {
                     resolve();
-                }, delay)
+                }, getDelay())
             );
         } while (Number(blocks[i].childNodes[0].innerHTML) < pivot);
         do {
@@ -112,7 +129,7 @@ async function hoarePartition(l, r, delay = 100) {
             await new Promise((resolve) =>
                 setTimeout(() => {
                     resolve();
-                }, delay)
+                }, getDelay())
             );
         } while (Number(blocks[j].childNodes[0].innerHTML) > pivot);
         if (i >= j) {
@@ -128,12 +145,13 @@ async function hoarePartition(l, r, delay = 100) {
         await new Promise((resolve) =>
             setTimeout(() => {
                 resolve();
-            }, delay)
+            }, getDelay())
         );
     }
 }
 
-async function quickSortHelper(l, r, delay = 100) {
+// Quick Sort Helper
+async function quickSortHelper(l, r) {
     if (l < r) {
         let pivotIdx = await hoarePartition(l, r);
         await quickSortHelper(l, pivotIdx);
@@ -141,86 +159,14 @@ async function quickSortHelper(l, r, delay = 100) {
     }
 }
 
-async function quickSort(delay = 100) {
-    await quickSortHelper(0, document.querySelectorAll(".block").length - 1, delay);
+// Quick Sort
+async function quickSort() {
+    await quickSortHelper(0, document.querySelectorAll(".block").length - 1);
     message.innerText = "Sorting Complete.";
 }
 
-async function binarySearch(delay = 100) {
-    let blocks = document.querySelectorAll(".block");
-    let num = Number(document.getElementById("searchNumber").value); // Convert input to a number
-    let message = document.getElementById("message");
-    message.innerText = "";
-
-    for (let i = 0; i < blocks.length; i++) {
-        blocks[i].style.backgroundColor = "#6b5b95"; // Reset block colors
-    }
-
-    let start = 0;
-    let end = blocks.length - 1;
-    let found = false;
-
-    while (start <= end) {
-        let mid = Math.floor((start + end) / 2);
-        let midValue = Number(blocks[mid].childNodes[0].innerText); // Convert block label to number
-
-        blocks[mid].style.backgroundColor = "#FF4949"; // Highlight mid block
-
-        await new Promise((resolve) => setTimeout(() => resolve(), delay));
-
-        if (midValue === num) { // Use strict equality
-            blocks[mid].style.backgroundColor = "#13CE66"; // Mark block as found
-            message.innerText = "Element found!";
-            found = true;
-            break;
-        } else if (midValue < num) {
-            start = mid + 1;
-        } else {
-            end = mid - 1;
-        }
-
-        blocks[mid].style.backgroundColor = "#6b5b95"; // Reset color if not found
-    }
-
-    if (!found) {
-        message.innerText = "Element not found!";
-    }
-}
-
-async function linearSearch(delay = 300) {
-    let blocks = document.querySelectorAll(".block");
-    let num = Number(document.getElementById("searchNumber").value);
-    let message = document.getElementById("message");
-    message.innerText = "";
-
-    for (let i = 0; i < blocks.length; i++) {
-        blocks[i].style.backgroundColor = "#6b5b95"; // Reset block colors
-    }
-
-    let found = false;
-    for (let i = 0; i < blocks.length; i++) {
-        blocks[i].style.backgroundColor = "#FF4949"; // Highlight current block
-
-        await new Promise((resolve) => setTimeout(() => resolve(), delay));
-
-        let value = Number(blocks[i].childNodes[0].innerText);
-        if (value === num) {
-            blocks[i].style.backgroundColor = "#13CE66"; // Mark block as found
-            message.innerText = "Element found!";
-            found = true;
-            break;
-        } else {
-            blocks[i].style.backgroundColor = "#6b5b95"; // Reset color if not found
-        }
-    }
-
-    if (!found) {
-        message.innerText = "Element not found!";
-    }
-}
-
-
-async function selectionSort(delay = 300) {
+// Selection Sort
+async function selectionSort() {
     let blocks = document.querySelectorAll(".block");
     let n = blocks.length;
 
@@ -231,7 +177,7 @@ async function selectionSort(delay = 300) {
         for (let j = i + 1; j < n; j++) {
             blocks[j].style.backgroundColor = "#FF4949"; // Highlight the current block being compared
 
-            await new Promise((resolve) => setTimeout(() => resolve(), delay));
+            await new Promise((resolve) => setTimeout(() => resolve(), getDelay()));
 
             let value1 = Number(blocks[minIndex].childNodes[0].innerText);
             let value2 = Number(blocks[j].childNodes[0].innerText);
@@ -266,75 +212,79 @@ async function selectionSort(delay = 300) {
     message.innerText = "Sorting Complete.";
 }
 
-
-async function merge(l, mid, r, delay = 100) {
+// Merge function for Merge Sort
+async function merge(l, mid, r) {
     let blocks = document.querySelectorAll(".block");
+
     let leftSize = mid - l + 1;
     let rightSize = r - mid;
-    
-    // Create temporary arrays
-    let leftArray = new Array(leftSize);
-    let rightArray = new Array(rightSize);
-    
-    // Copy data to temp arrays leftArray[] and rightArray[]
+
+    let leftArray = [];
+    let rightArray = [];
+
     for (let i = 0; i < leftSize; i++) {
-        leftArray[i] = blocks[l + i].style.height;
+        leftArray[i] = Number(blocks[l + i].childNodes[0].innerText);
         blocks[l + i].style.backgroundColor = "#FF4949"; // Mark left part
     }
     for (let j = 0; j < rightSize; j++) {
-        rightArray[j] = blocks[mid + 1 + j].style.height;
+        rightArray[j] = Number(blocks[mid + 1 + j].childNodes[0].innerText);
         blocks[mid + 1 + j].style.backgroundColor = "#FF4949"; // Mark right part
     }
 
-    await new Promise((resolve) => setTimeout(resolve, delay));
-    
+    await new Promise(resolve => setTimeout(resolve, getDelay()));
+
     let i = 0, j = 0, k = l;
 
-    // Merge the temp arrays back into blocks[]
     while (i < leftSize && j < rightSize) {
-        await new Promise((resolve) => setTimeout(resolve, delay));
-        
-        if (parseInt(leftArray[i]) <= parseInt(rightArray[j])) {
-            blocks[k].style.height = leftArray[i];
+        if (leftArray[i] <= rightArray[j]) {
+            blocks[k].style.height = `${leftArray[i] * 3}px`;
+            blocks[k].childNodes[0].innerText = leftArray[i];
             i++;
         } else {
-            blocks[k].style.height = rightArray[j];
+            blocks[k].style.height = `${rightArray[j] * 3}px`;
+            blocks[k].childNodes[0].innerText = rightArray[j];
             j++;
         }
         blocks[k].style.backgroundColor = "#13CE66"; // Sorted elements
         k++;
+        await new Promise(resolve => setTimeout(resolve, getDelay()));
     }
 
-    // Copy the remaining elements of leftArray[], if there are any
     while (i < leftSize) {
-        await new Promise((resolve) => setTimeout(resolve, delay));
-        blocks[k].style.height = leftArray[i];
+        blocks[k].style.height = `${leftArray[i] * 3}px`;
+        blocks[k].childNodes[0].innerText = leftArray[i];
         blocks[k].style.backgroundColor = "#13CE66"; // Sorted elements
         i++;
         k++;
+        await new Promise(resolve => setTimeout(resolve, getDelay()));
     }
 
-    // Copy the remaining elements of rightArray[], if there are any
     while (j < rightSize) {
-        await new Promise((resolve) => setTimeout(resolve, delay));
-        blocks[k].style.height = rightArray[j];
+        blocks[k].style.height = `${rightArray[j] * 3}px`;
+        blocks[k].childNodes[0].innerText = rightArray[j];
         blocks[k].style.backgroundColor = "#13CE66"; // Sorted elements
         j++;
         k++;
+        await new Promise(resolve => setTimeout(resolve, getDelay()));
     }
 }
 
-// Asynchronous MergeSort function
-async function mergeSort(l, r, delay = 100) {
-    if (l >= r) return;
+// Merge Sort
+async function mergeSort(l, r) {
+    if (l < r) {
+        let mid = Math.floor((l + r) / 2);
 
-    let mid = Math.floor((l + r) / 2);
-    await mergeSort(l, mid, delay);
-    await mergeSort(mid + 1, r, delay);
-    await merge(l, mid, r, delay);
+        await mergeSort(l, mid);
+        await mergeSort(mid + 1, r);
+        await merge(l, mid, r);
+    } else {
+        let blocks = document.querySelectorAll(".block");
+        blocks[l].style.backgroundColor = "#13CE66"; // Mark the sorted element
+    }
     message.innerText = "Sorting Complete.";
 }
 
+// Start sorting based on the selected algorithm
 function startSort() {
     let algorithm = document.getElementById("algorithm").value;
     switch (algorithm) {
@@ -346,12 +296,6 @@ function startSort() {
             break;
         case "quickSort":
             quickSort();
-            break;
-        case "binarySearch":
-            binarySearch();
-            break;
-        case "linearSearch":
-            linearSearch();
             break;
         case "selectionSort":
             selectionSort();
@@ -366,9 +310,3 @@ function startSort() {
 }
 
 generateArray();
-
-
-
-
-
-

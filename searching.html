@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Searching Algorithms</title>
+</head>
+<body>
+    <div class="content">
+       
+        <p class="header">Searching Visualization</p>
+        <div class="correction"> 
+            <select id="algorithm">
+                <option value="">Select Algorithm</option>
+                <option value="binarySearch">Binary Search</option>
+                <option value="linearSearch">Linear Search</option>
+            </select>
+            <input type="text" id="searchNumber" placeholder="Enter number to search" style="display:none;">
+            <button onclick="generateArray()">Generate New Array</button>
+        </div>
+        
+        <button onclick="startSearch()">Start</button>
+        <input type="range" id="speedSlider" min="1" max="100" value="50">
+        <label for="speedSlider" id="speedSlider">Speed</label>
+        <div id="array"></div>
+        <p id="message"></p>
+    </div>
+    <script src="/searching.js"></script>
+</body>
+</html>

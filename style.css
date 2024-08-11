@@ -1,30 +1,91 @@
 * {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-.header {
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 20px;
+body {
+    font-family: Arial, sans-serif;
+    background: url(https://www.shutterstock.com/shutterstock/photos/793650382/display_1500/stock-vector-magnifying-glass-repeating-rotating-and-changing-size-icons-wallpaper-web-template-grey-elements-793650382.jpg)
+    /* Removed backgroundAnimation keyframes */
 }
+
+.centered-container, .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .correction{
+        display: flex;
+        justify-content: space-around;
+
+
+                  #searchNumber{
+                    padding: 10px;
+                    padding-left: 10px;
+                  }
+    }
+}
+
+h1, .header {
+    margin-bottom: 20px;
+    color: #555855ea;
+    font-size: xx-large;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);  
+    margin-top: 10px;  
+
+}
+
+button {
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+select, input[type="text"], input[type="range"] {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+select {
+    width: 220px;
+    display: block;
+    margin: 10px auto;
+}
+
 
 #array {
     background-color: white;
     height: 413px;
-    width: 598px;
-    margin: auto;
+    width: 600px;
+    margin: 20px auto;
     position: relative;
-    margin-top: 64px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensures bars do not overflow container */
 }
 
 .block {
     width: 28px;
     background-color: #6b5b95;
     position: absolute;
-    bottom: 0px;
-    transition: 0.2s all ease;
+    bottom: 0;
+    transition: height 0.3s ease, transform 0.3s ease;
+    border-radius: 5px;
 }
 
 .block_id {
@@ -33,19 +94,19 @@
     margin-top: -20px;
     width: 100%;
     text-align: center;
-}
-
-#searchNumber {
-    display: block;
-    margin: 20px auto;
-    padding: 10px;
-    width: 200px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #message {
-    font-size: 20px;
+    font-size: 30px;
+    font-weight: 300;
     text-align: center;
     color: green;
-    margin-top: 20px;
+    margin-top: 5px;
+    padding-bottom: 10px;
+}
+
+#speedSlider{
+    font-size: 25px;
+    color: #555855;
 }
